@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -46,5 +48,22 @@
 				</div>
 			</div>
 		</div>
+
+		<div class='container'>
+			<div class='row'>
+				<div class='col'>
+					<a href="{{ route('posts.create') }}">新增文章</a>
+				</div>
+			</div>
+		</div>
+
+		<div class='container'>
+			<div class='row'>
+				<div class='col'>
+					<h1>新增文章頁面</h1>
+				</div>
+			</div>
+		</div>
+
 	</body>
 </html>

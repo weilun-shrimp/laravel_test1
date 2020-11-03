@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class testtt extends Controller
+class PostsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,12 @@ class testtt extends Controller
      */
     public function index()
     {
-        return view('index');
+        $to_view_data = [
+            'name' => '湯湯的姆'
+        ];
+
+        return view('posts.list', $to_view_data);
+        //去秀出/resource/view下面的posts資料夾下面的list.blade.php, 並傳參數給它
     }
 
     /**
@@ -23,7 +28,11 @@ class testtt extends Controller
      */
     public function create()
     {
-        //
+        $to_view_data = [
+            'name' => '湯湯的姆'
+        ];
+
+        return view('posts.create', $to_view_data);
     }
 
     /**
