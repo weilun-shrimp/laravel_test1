@@ -23,12 +23,47 @@
 						<li class="nav-item">
 							<a class="nav-link disabled" href="#">聯絡我們</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{route('login')}}">[登入]</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{route('register')}}">[註冊]</a>
-						</li>
+
+						<!-- Authentication Links -->
+                        @guest  <!--如果是訪客-->
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
+                            
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else  <!--如果登入了-->
+                        	<!--
+								也可以用
+									@auth
+									@endauth
+								判別
+                        	-->
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                    <!--因為laravel預設auth登出的route是用post,所以用一個form把logout送出去-->
+                                </div>
+                            </li>
+                        @endguest
+
 					</ul>
 				</div>
 			</nav>
