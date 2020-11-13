@@ -30,3 +30,5 @@ class AddUsernameCollunmToDefultUserTable extends Migration
         });
     }
 }
+
+//客製化laravel auth 參考了 https://officeguide.cc/laravel-6-how-to-let-user-login-with-email-or-username/
