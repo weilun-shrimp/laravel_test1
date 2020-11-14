@@ -15,7 +15,19 @@ class CeatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('author_id');
+            $table->date('created_date');
+            $table->time('created_time', 0);
+            $table->string('title', 255);
+            $table->text('excerpt');
+            $table->longText('content');
+            $table->string('ststus', 120);
+            $table->string('comment_ststus', 120);
+            $table->unsignedBigInteger('comment_count');
+            $table->date('modified_date');
+            $table->time('modified_time', 0);
+            $table->unsignedBigInteger('parent');
+            $table->string('type', 120);
         });
     }
 
