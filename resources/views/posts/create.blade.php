@@ -3,9 +3,14 @@
 @section('title', '新增文章')
 @section('content')
 <div class='row'>
-				<div class='col'>
-					<h1>新增文章頁面</h1>
-				</div>
-			</div>
+	<div class='col'>
+		<h1>新增文章頁面</h1>
+		{{ Form::open(array('url' => 'foo/bar')) }}
+		    <?php
+
+		    ?>
+		{{ Form::close() }}
+	</div>
+</div>
 @endsection
 
