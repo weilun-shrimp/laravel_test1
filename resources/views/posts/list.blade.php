@@ -1,24 +1,58 @@
 @extends('layouts.master')
 @section('title', '新增文章')
 @section('content')
-<div class='row'>
-	<div class='col'>
-		<a href="{{ route('posts.create') }}">新增文章</a>
+
+@auth
+	<div class='row'>
+		<div class='col'>
+			<a href="{{ route('posts.create') }}">新增文章</a>
+		</div>
 	</div>
-</div>
+@endauth
+
+
 <div class='row'>
 	<div class='col'>
 		<h1>文章列表頁面</h1>
-		這是blog  list頁, 傳入的參數是"{{$name}}"
-		</br>
-
-		可以直接用兩個大括號將變數包起來顯示
-		</br>
-
-		<?php
-
-		echo '也可以在php裡面echo'.$name;
-		?>
+		<table class="table table-striped table-dark">
+			<thead>
+				<tr>
+					<th scope="col">id</th>
+					<th scope="col">title</th>
+					<th scope="col">excerpt</th>
+					<th scope="col">created_datetime</th>
+					<th scope="col">status</th>
+					<th scope="col">comment_status</th>
+					@auth
+						<th scope="col">oprate</th>
+					@endauth
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($posts as $post)
+					<tr>
+						<th scope="row">{{ $post->id }}</th>
+						<td><a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></td>
+						<td>
+							{{ mb_substr($post->excerpt,0,30,"UTF-8") }}
+						</td>
+						<td>
+							{{ $post->created_date }}
+							</br>
+							{{ $post->created_time }}
+						</td>
+						<td>{{ $post->status }}</td>
+						<td>{{ $post->comment_status }}</td>
+						@auth
+							<td>
+								<a href="{{ route('posts.edit', $post->id) }}">edit</a> 
+								
+							</td>
+						@endauth
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
 	</div>
 </div>
 @endsection

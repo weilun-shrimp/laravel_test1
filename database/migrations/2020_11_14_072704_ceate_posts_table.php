@@ -19,14 +19,14 @@ class CeatePostsTable extends Migration
             $table->date('created_date');
             $table->time('created_time', 0);
             $table->string('title', 255);
-            $table->text('excerpt');
-            $table->longText('content');
-            $table->string('ststus', 120);
-            $table->string('comment_ststus', 120);
-            $table->unsignedBigInteger('comment_count');
-            $table->date('modified_date');
-            $table->time('modified_time', 0);
-            $table->unsignedBigInteger('parent');
+            $table->text('excerpt')->nullable();
+            $table->longText('content')->nullable();
+            $table->string('status', 120);
+            $table->string('comment_status', 120);
+            $table->unsignedBigInteger('comment_count')->default(0);
+            $table->date('modified_date')->nullable();
+            $table->time('modified_time', 0)->nullable();
+            $table->unsignedBigInteger('parent')->nullable();
             $table->string('type', 120);
         });
     }

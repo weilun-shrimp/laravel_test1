@@ -89,7 +89,7 @@ Route::get('posts', [PostsController::class, 'index'])->name('posts.index');
 Route::get('posts/create', [PostsController::class, 'create'])->name('posts.create');
 
 //儲存新增的文章, 用post傳遞
-Route::post('posts/store', [PostController::class, 'store'])->name('posts.store');
+Route::post('posts/store', [PostsController::class, 'store'])->name('posts.store');
 
 //顯示指定的blog文章, 所以要指定傳入post_id在網址上（get）
 Route::get('posts/{id}', [PostsController::class, 'show'])->name('posts.show');
@@ -101,6 +101,6 @@ Route::get('posts/{id}/edit', [PostsController::class, 'edit'])->name('posts.edi
 Route::patch('posts/{id}', [PostsController::class, 'update'])->name('posts.update');
 
 //刪除指定的post
-Route::delete('posts/{id}', [PostsController::class], 'destroy')->name('posts.destroy');
+Route::delete('posts/{id}', [PostsController::class, 'destroy'])->name('posts.destroy');
 
 
