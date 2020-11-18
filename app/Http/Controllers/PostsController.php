@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+
 /*
     laravel不會預設controller會用到什麼東西, 所以有用到什麼namespace 功能要自己use
+    use App\Models\Post;  取用post model （eloquent orm方法）
     use DB;  用來存取資料庫
     use Auth  用來使用驗證
 */
-use DB;
+use App\Models\Post;
+use DB; 
 use Auth;
 
 class PostsController extends Controller
@@ -20,10 +24,14 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $result = DB::select('select * from posts order by id DESC');
+        //這是db的方法
+        //$results = DB::select('select * from posts order by id DESC');
+
+        //下面是laravel eloquent orm 的 model 方法
+        $results = Post::orderBy('id','DESC')->paginate(25);
 
         $to_view_data = [
-            'posts' => $result
+            'posts' => $results
         ];
 
         return view('posts.list', $to_view_data);

@@ -53,6 +53,8 @@
 				@endforeach
 			</tbody>
 		</table>
+		<?php //生成laravel分頁模板（還要宣告使用bootstrap4樣式才能正常使用） ?>
+		{{ $posts->links('pagination::bootstrap-4') }}
 	</div>
 </div>
 @endsection
