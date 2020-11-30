@@ -36,6 +36,7 @@ class Post extends Model
 
     //此資料表有沒有關聯性欄位
     //每個post都有一個author_id要關聯
+    //最後會在view用到   直接在view找出author的名字
 	protected function author(){
 		return $this->belongsTo(User::class);
 	}

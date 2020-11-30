@@ -20,6 +20,7 @@
 					<th scope="col">id</th>
 					<th scope="col">title</th>
 					<th scope="col">excerpt</th>
+					<th scope="col">author_id_name</th>
 					<th scope="col">created_datetime</th>
 					<th scope="col">status</th>
 					<th scope="col">comment_status</th>
@@ -35,6 +36,13 @@
 						<td><a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></td>
 						<td>
 							{{ mb_substr($post->excerpt,0,30,"UTF-8") }}
+						</td>
+
+						<!-- 使用post模組寫好的author關聯直接查詢姓名  -->
+						<td>
+							{{ $post->author_id }}
+							</br>
+							{{ $post->author->name }}
 						</td>
 						<td>
 							{{ $post->created_date }}
