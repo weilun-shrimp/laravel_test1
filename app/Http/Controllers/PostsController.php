@@ -62,11 +62,8 @@ class PostsController extends Controller
             第一種 直接使用 ＄POST_['input名'];
             第二種 $request->input('input名');
         */
-        echo $request->input('status');
-        echo '</br>';
-        echo $request->input('comment_status');
 
-
+        /*  這是DB寫入方法
         DB::insert('insert into posts (author_id, created_date, created_time, title, excerpt, content, status, comment_status, type) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
             array(
                 Auth::id(), 
@@ -79,6 +76,20 @@ class PostsController extends Controller
                 $request->input('comment_status')? 'allow' : 'close',
                 'post'
         ));
+        */
+
+        //eloquent寫入方法
+        $insert_att['author_id'] = Auth::id();
+        $insert_att['created_date'] = date ("Y-m-d");
+        $insert_att['created_time'] = date ("H:i:s");
+        $insert_att['title'] = $request->input('title');
+        $insert_att['excerpt'] = $request->input('excerpt');
+        $insert_att['content'] = $request->input('content');
+        $insert_att['status'] = $request->input('status')? 'publish' : 'unpublish';
+        $insert_att['comment_status'] = $request->input('comment_status')? 'allow' : 'close';
+        $insert_att['type'] = 'post';
+        Post::create($insert_att);
+
         return redirect()->route('posts.index');
     }
 
@@ -90,7 +101,13 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $results = DB::select('select * from posts where id = ?', [$id]);
+        /*db用法
+        $results = DB::select('select * from posts where id = ?', [$id])[0];
+        */
+
+        //eloquent用法
+        $results = Post::where('id','=',$id)->first();
+
         $to_view_data = [
             'post' => $results
         ];
@@ -105,7 +122,13 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $results = DB::select('select * from posts where id = ?', [$id]);
+        /*db用法
+        $results = DB::select('select * from posts where id = ?', [$id])[0];
+        */
+
+        //eloquent用法
+        $results = Post::where('id','=',$id)->first();
+
         $to_view_data = [
             'post' => $results
         ];
@@ -121,6 +144,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        /* db方法
         DB::update('update posts set title = ?, content = ?, excerpt = ?, status = ?, comment_status = ?, modified_date = ?, modified_time = ? where id = ?', array(
             $request->input('title'),
             $request->input('content'),
@@ -131,6 +155,21 @@ class PostsController extends Controller
             date ("H:i:s"),
             $id
         ));
+        */
+
+        //eloquent寫入方法  先查出要update的資料
+        $need_modify_post = Post::where('id','=',$id)->first();
+
+        $update_att['modified_date'] = date ("Y-m-d");
+        $update_att['modified_time'] = date ("H:i:s");
+        $update_att['title'] = $request->input('title');
+        $update_att['excerpt'] = $request->input('excerpt');
+        $update_att['content'] = $request->input('content');
+        $update_att['status'] = $request->input('status');
+        $update_att['comment_status'] = $request->input('comment_status');
+
+        $need_modify_post->update($update_att);
+
         return $this->show($id);
     }
 
@@ -142,7 +181,13 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
+        /* db方法
         DB::delete('delete from posts where id = ?', [$id]);
+        */
+
+        //eloquent寫入方法  先查出要update的資料
+        $need_delete_post = Post::where('id','=',$id)->first();
+        $need_delete_post->delete();
         return redirect()->route('posts.index');
     }
 }
