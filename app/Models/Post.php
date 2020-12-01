@@ -31,7 +31,8 @@ class Post extends Model
         'modified_date',
         'modified_time',
         'parent',
-        'type'
+        'type',
+        'is_admin'
     ];
 
     //此資料表有沒有關聯性欄位
