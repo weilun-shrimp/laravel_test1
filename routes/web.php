@@ -85,22 +85,29 @@ use App\Http\Controllers\PostsController;
 //顯示最新blog list
 Route::get('posts', [PostsController::class, 'index'])->name('posts.index');
 
-//出現新增一篇文章模組表單
-Route::get('posts/create', [PostsController::class, 'create'])->name('posts.create');
-
-//儲存新增的文章, 用post傳遞
-Route::post('posts/store', [PostsController::class, 'store'])->name('posts.store');
 
 //顯示指定的blog文章, 所以要指定傳入post_id在網址上（get）
-Route::get('posts/{id}', [PostsController::class, 'show'])->name('posts.show');
-
-//出現指定要修改的blog_post修改模組表單
-Route::get('posts/{id}/edit', [PostsController::class, 'edit'])->name('posts.edit');
-
-//儲存上面修改完的post資料, 官方建議用http嚴謹的內建patch方法
-Route::patch('posts/{id}', [PostsController::class, 'update'])->name('posts.update');
-
-//刪除指定的post
-Route::delete('posts/{id}', [PostsController::class, 'destroy'])->name('posts.destroy');
+Route::get('posts/{id}', [PostsController::class, 'show'])->where('id', '[0-9]+')->name('posts.show');
+//因為新增post用middleware控制了,如果不加點驗證id選項,laravel會以為create這個文字是id而出現404錯誤
+//所以要加正規表達式來控制,或者也可以把陸游名稱後面加一個/show就可以解決
 
 
+//把只能是admin才能用的路由包起來,用middleware控制  只有管理者可以用
+Route::group(['middleware' => 'is_admin' ], function () {
+
+    //出現指定要修改的blog_post修改模組表單
+	Route::get('posts/{id}/edit', [PostsController::class, 'edit'])->name('posts.edit');
+
+	//儲存上面修改完的post資料, 官方建議用http嚴謹的內建patch方法
+	Route::patch('posts/{id}', [PostsController::class, 'update'])->name('posts.update');
+
+	//刪除指定的post
+	Route::delete('posts/{id}', [PostsController::class, 'destroy'])->name('posts.destroy');
+
+	//出現新增一篇文章模組表單
+	Route::get('posts/create', [PostsController::class, 'create'])->name('posts.create');
+
+	//儲存新增的文章, 用post傳遞
+	Route::post('posts/store', [PostsController::class, 'store'])->name('posts.store');
+
+});
