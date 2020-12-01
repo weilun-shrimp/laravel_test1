@@ -3,11 +3,14 @@
 @section('content')
 
 @auth
-	<div class='row'>
-		<div class='col'>
-			<a href="{{ route('posts.create') }}">新增文章</a>
+	@if(auth()->user()->is_admin==1)
+	<?php  //只有登入而且是管理者才有 ?>
+		<div class='row'>
+			<div class='col'>
+				<a href="{{ route('posts.create') }}">新增文章</a>
+			</div>
 		</div>
-	</div>
+	@endif
 @endauth
 
 
